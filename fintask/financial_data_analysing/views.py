@@ -1,0 +1,52 @@
+from django.shortcuts import render
+
+from . import forms
+from django.http import HttpResponse
+from .data_processing import financial_data_display, financial_data_plot
+import matplotlib.pyplot as plt
+import io
+import base64
+
+
+# Create your views here.
+
+def base_page_view(request):
+    if request.method == "POST":
+        form = forms.ExcellFileForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            excel_file = cleaned_data.get('excel_file')
+            if "plot" in request.POST:
+                plot = financial_data_plot(excel_file)
+                # plt.show()
+                buffer = io.BytesIO()
+                plt.savefig(buffer, format='png')
+                buffer.seek(0)
+                image_png = buffer.getvalue()
+                buffer.close()
+                graphic = base64.b64encode(image_png)
+                graphic = graphic.decode('utf-8')
+                return render(
+                    request,
+                    template_name="financial_data_analysing/base_page.html",
+                    context={
+                        'graphic': graphic
+                    }
+                )
+            else:
+                rows = financial_data_display(excel_file)
+                return render(
+                    request,
+                    template_name="financial_data_analysing/base_page.html",
+                    context={
+                        'rows': rows
+                    }
+                )
+        else:
+            return HttpResponse(f"{form.errors.get('excel_file')}")
+    return render(request,
+                  template_name='financial_data_analysing/base_page.html',
+                  context={
+                      'form': forms.ExcellFileForm()
+                  }
+                  )

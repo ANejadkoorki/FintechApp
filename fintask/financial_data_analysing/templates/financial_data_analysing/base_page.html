@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {# page encoding #}
+    <meta charset="UTF-8">
+
+    {# bootstrap css styles and responsive page  #}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="{% static 'css/bootstrap.min.css' %} " rel="stylesheet">
+
+    {# page title handling #}
+    <title>Base Page</title>
+</head>
+
+
+<body>
+
+<div class="container">
+    <form class="mt-4" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="excel_file">Enter Your Excel File please</label>
+            <input type="file" class="form-control-file" id="excel_file" name="excel_file">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <input type="submit" class="btn btn-primary" value="plot" name="plot"/>
+    </form>
+
+{% if graphic %}
+    <img src="data:image/png;base64,{{ graphic|safe }}" alt="">
+{% endif %}
+{% if rows %}
+    <div class="container">
+        <table class="table table-dark table-bordered mt-4">
+            <thead>
+            <tr>
+                <th scope="col">SHARE</th>
+                <th scope="col">DATE</th>
+                <th scope="col">FIRST</th>
+                <th scope="col">HIGH</th>
+                <th scope="col">LOW</th>
+                <th scope="col">CLOSE</th>
+                <th scope="col">VALUE</th>
+                <th scope="col">VOL</th>
+                <th scope="col">OPENINT</th>
+                <th scope="col">PER</th>
+                <th scope="col">OPEN</th>
+                <th scope="col">LAST</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+                <tr>
+                    {% for item_of_row in row %}
+                        <td>{{ item_of_row }}</td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endif %}
+
+
+</div>
+
+{# JQuery and bootstrap js scripts #}
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
+
