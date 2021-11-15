@@ -8,6 +8,7 @@
     {# bootstrap css styles and responsive page  #}
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{% static 'css/bootstrap.min.css' %} " rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
 
     {# page title handling #}
     <title>Base Page</title>
@@ -31,44 +32,65 @@
 {% if graphic %}
     {{ graphic }}
 {% endif %}
+
 {% if rows %}
-    <div class="container">
-        <table class="table table-dark table-bordered mt-4 mr-4 table-sm">
-            <thead>
-            <tr class="table-primary">
-                <th scope="col" class="col-md">SHARE</th>
-                <th scope="col" class="col-md">DATE</th>
-                <th scope="col" class="col-md">FIRST</th>
-                <th scope="col" class="col-md">HIGH</th>
-                <th scope="col" class="col-md">LOW</th>
-                <th scope="col" class="col-md">CLOSE</th>
-                <th scope="col" class="col-md">VALUE</th>
-                <th scope="col" class="col-md">VOL</th>
-                <th scope="col" class="col-md">OPENINT</th>
-                <th scope="col" class="col-md">PER</th>
-                <th scope="col" class="col-md">OPEN</th>
-                <th scope="col" class="col-md">LAST</th>
+    <table id="data_table" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>SHARE</th>
+            <th>DATE</th>
+            <th>FIRST</th>
+            <th>HIGH</th>
+            <th>LOW</th>
+            <th>CLOSE</th>
+            <th>VALUE</th>
+            <th>VOL</th>
+            <th>OPENINT</th>
+            <th>PER</th>
+            <th>OPEN</th>
+            <th>LAST</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in rows %}
+            <tr>
+                {% for item_of_row in row %}
+                    <td>{{ item_of_row }}</td>
+                {% endfor %}
             </tr>
-            </thead>
-            <tbody>
-            {% for row in rows %}
-                <tr>
-                    {% for item_of_row in row %}
-                        <td scope="col">{{ item_of_row }}</td>
-                    {% endfor %}
-                </tr>
-                </tbody>
-            {% endfor %}
-        </table>
-    </div>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>SHARE</th>
+            <th>DATE</th>
+            <th>FIRST</th>
+            <th>HIGH</th>
+            <th>LOW</th>
+            <th>CLOSE</th>
+            <th>VALUE</th>
+            <th>VOL</th>
+            <th>OPENINT</th>
+            <th>PER</th>
+            <th>OPEN</th>
+            <th>LAST</th>
+        </tr>
+        </tfoot>
+    </table>
 {% endif %}
-
-
 
 
 {# JQuery and bootstrap js scripts #}
 <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#data_table').DataTable();
+    });
+</script>
 </body>
 </html>
 
