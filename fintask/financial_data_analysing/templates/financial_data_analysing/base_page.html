@@ -28,7 +28,7 @@
     </form>
 
 {% if graphic %}
-    <img src="data:image/png;base64,{{ graphic|safe }}" alt="">
+    {{ graphic }}
 {% endif %}
 {% if rows %}
     <div class="container">
