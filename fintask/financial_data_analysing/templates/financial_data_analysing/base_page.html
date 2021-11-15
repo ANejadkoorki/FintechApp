@@ -26,35 +26,35 @@
         <button type="submit" class="btn btn-primary">Submit</button>
         <input type="submit" class="btn btn-primary" value="plot" name="plot"/>
     </form>
+</div>
 
 {% if graphic %}
     {{ graphic }}
 {% endif %}
 {% if rows %}
     <div class="container">
-        <table class="table table-dark table-bordered mt-4">
+        <table class="table table-dark table-bordered mt-4 mr-4 table-sm">
             <thead>
-            <tr>
-                <th scope="col">SHARE</th>
-                <th scope="col">DATE</th>
-                <th scope="col">FIRST</th>
-                <th scope="col">HIGH</th>
-                <th scope="col">LOW</th>
-                <th scope="col">CLOSE</th>
-                <th scope="col">VALUE</th>
-                <th scope="col">VOL</th>
-                <th scope="col">OPENINT</th>
-                <th scope="col">PER</th>
-                <th scope="col">OPEN</th>
-                <th scope="col">LAST</th>
-
+            <tr class="table-primary">
+                <th scope="col" class="col-md">SHARE</th>
+                <th scope="col" class="col-md">DATE</th>
+                <th scope="col" class="col-md">FIRST</th>
+                <th scope="col" class="col-md">HIGH</th>
+                <th scope="col" class="col-md">LOW</th>
+                <th scope="col" class="col-md">CLOSE</th>
+                <th scope="col" class="col-md">VALUE</th>
+                <th scope="col" class="col-md">VOL</th>
+                <th scope="col" class="col-md">OPENINT</th>
+                <th scope="col" class="col-md">PER</th>
+                <th scope="col" class="col-md">OPEN</th>
+                <th scope="col" class="col-md">LAST</th>
             </tr>
             </thead>
             <tbody>
             {% for row in rows %}
                 <tr>
                     {% for item_of_row in row %}
-                        <td>{{ item_of_row }}</td>
+                        <td scope="col">{{ item_of_row }}</td>
                     {% endfor %}
                 </tr>
                 </tbody>
@@ -64,7 +64,7 @@
 {% endif %}
 
 
-</div>
+
 
 {# JQuery and bootstrap js scripts #}
 <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>

@@ -18,14 +18,6 @@ def base_page_view(request):
             excel_file = cleaned_data.get('excel_file')
             if "plot" in request.POST:
                 plot = financial_data_plot(excel_file)
-                # plt.show()
-                # buffer = io.BytesIO()
-                # plt.savefig(buffer, format='png')
-                # buffer.seek(0)
-                # image_png = buffer.getvalue()
-                # buffer.close()
-                # graphic = base64.b64encode(image_png)
-                # graphic = graphic.decode('utf-8')
                 return render(
                     request,
                     template_name="financial_data_analysing/base_page.html",

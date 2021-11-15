@@ -114,6 +114,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+USE_THOUSAND_SEPARATOR = True
+NUMBER_GROUPING = 3
 
 MEDIA_URL = '/files/'
 MEDIA_ROOt = BASE_DIR / 'excell_files'
@@ -125,7 +127,6 @@ STATIC_ROOT = BASE_DIR / 'static'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
