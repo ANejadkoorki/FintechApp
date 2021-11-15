@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from . import forms
 from django.http import HttpResponse
-from .data_processing import financial_data_display, financial_data_plot
+from .data_processing import *
 import matplotlib.pyplot as plt
 import io
 import base64
@@ -26,12 +26,13 @@ def base_page_view(request):
                     }
                 )
             else:
-                rows = financial_data_display(excel_file)
+                rows, averages_list = financial_data_display(excel_file)
                 return render(
                     request,
                     template_name="financial_data_analysing/base_page.html",
                     context={
-                        'rows': rows
+                        'rows': rows,
+                        'averages_list': averages_list,
                     }
                 )
         else:
