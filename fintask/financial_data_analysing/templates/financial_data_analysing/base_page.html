@@ -5,18 +5,44 @@
     {# page encoding #}
     <meta charset="UTF-8">
 
-    {# bootstrap css styles and responsive page  #}
+    {# bootstrap css styles and js  #}
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{% static 'css/bootstrap.min.css' %} " rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
 
-    {# page title handling #}
+    {# data table bootstrap and js #}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link href="//datatables.net/download/build/nightly/jquery.dataTables.css" rel="stylesheet" type="text/css"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css"/>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//datatables.net/download/build/nightly/jquery.dataTables.js"></script>
+
+    {# data table css style #}
+    <style>
+        body {
+            font: 90%/1.45em "Helvetica Neue", HelveticaNeue, Verdana, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #fff;
+        }
+
+
+        div.container {
+            min-width: 980px;
+            margin: 0 auto;
+        }
+    </style>
+
+    {# page title #}
     <title>Base Page</title>
 </head>
-
-
 <body>
 
+{# file upload section #}
 <div class="container">
     <form class="mt-4" method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -29,80 +55,124 @@
     </form>
 </div>
 
+
+{# for plot #}
 {% if graphic %}
     {{ graphic }}
 {% endif %}
 
+
+
+{# data_table #}
 {% if rows %}
-    <table id="data_table" class="display mr-4" style="width:100%">
-        <thead class="table-primary">
-        <tr>
-            <th>SHARE</th>
-            <th>DATE</th>
-            <th>FIRST</th>
-            <th>HIGH</th>
-            <th>LOW</th>
-            <th>CLOSE</th>
-            <th>VALUE</th>
-            <th>VOL</th>
-            <th>OPENINT</th>
-            <th>PER</th>
-            <th>OPEN</th>
-            <th>LAST</th>
-        </tr>
-        </thead>
-        <tbody class="table-light">
-        {% for row in rows %}
+    <div class="container mt-4">
+
+{#        <div class="time_filter mb-4">#}
+{#            <select id="time_filter" class="form-control">#}
+{#                <option value="">Show All</option>#}
+{#                <option value="^(20[2-9]{1}[0-9]{1}|2[1-9]{1}\d{2}|[3-9]{1}\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$">#}
+{#                    After 2020#}
+{#                </option>#}
+{#                <option value="^([0-1]{1}\d{3}|20[0-1]{1}[0-9]{1})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$">Before#}
+{#                    2020#}
+{#                </option>#}
+{#            </select>#}
+{#        </div>#}
+
+        <table id="example" class="display" width="100%">
+            <thead class="table-primary">
             <tr>
-                {% for item_of_row in row %}
-                    <td>{{ item_of_row }}</td>
-                {% endfor %}
+                <th></th>
+                <th>
+                    <select id="time_filter" class="form-control">
+                        <option value="">Show All</option>
+                        <option value="^(20[2-9]{1}[0-9]{1}|2[1-9]{1}\d{2}|[3-9]{1}\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$">
+                            After 2020
+                        </option>
+                        <option value="^([0-1]{1}\d{3}|20[0-1]{1}[0-9]{1})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$">
+                            Before
+                            2020
+                        </option>
+                    </select>
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
-        {% endfor %}
-        </tbody>
-        <tfoot>
-{#        <tr>#}
-{#            <th>SHARE</th>#}
-{#            <th>DATE</th>#}
-{#            <th>FIRST</th>#}
-{#            <th>HIGH</th>#}
-{#            <th>LOW</th>#}
-{#            <th>CLOSE</th>#}
-{#            <th>VALUE</th>#}
-{#            <th>VOL</th>#}
-{#            <th>OPENINT</th>#}
-{#            <th>PER</th>#}
-{#            <th>OPEN</th>#}
-{#            <th>LAST</th>#}
-{#        </tr>#}
-        <tr class="table-info">
-            <th>{{ averages_list.0 }} Averages : </th>
-            <th>AVERAGE FIRST : {{ averages_list.1.1 }}</th>
-            <th>AVERAGE HIGH : {{ averages_list.2.1 }}</th>
-            <th>AVERAGE LOW : {{ averages_list.3.1 }}</th>
-            <th>AVERAGE CLOSE : {{ averages_list.4.1 }}</th>
-            <th>AVERAGE VALUE : {{ averages_list.5.1 }}</th>
-            <th>AVERAGE VOL : {{ averages_list.6.1 }}</th>
-            <th>AVERAGE OPENINT : {{ averages_list.7.1 }}</th>
-            <th  colspan="2">AVERAGE OPEN : {{ averages_list.8.1 }}</th>
-            <th  colspan="2">AVERAGE LAST : {{ averages_list.9.1 }}</th>
-        </tr>
-        </tfoot>
-    </table>
+            <tr>
+                <th>SHARE</th>
+                <th>DATE</th>
+                <th>FIRST</th>
+                <th>HIGH</th>
+                <th>LOW</th>
+                <th>CLOSE</th>
+                <th>VALUE</th>
+                <th>VOL</th>
+                <th>OPENINT</th>
+                <th>PER</th>
+                <th>OPEN</th>
+                <th>LAST</th>
+            </tr>
+            </thead>
+
+            <tfoot>
+            <tr class="table-info">
+                <th>{{ averages_list.0 }} Averages :</th>
+                <th>AVERAGE FIRST : {{ averages_list.1.1 }}</th>
+                <th>AVERAGE HIGH : {{ averages_list.2.1 }}</th>
+                <th>AVERAGE LOW : {{ averages_list.3.1 }}</th>
+                <th>AVERAGE CLOSE : {{ averages_list.4.1 }}</th>
+                <th>AVERAGE VALUE : {{ averages_list.5.1 }}</th>
+                <th>AVERAGE VOL : {{ averages_list.6.1 }}</th>
+                <th>AVERAGE OPENINT : {{ averages_list.7.1 }}</th>
+                <th colspan="2">AVERAGE OPEN : {{ averages_list.8.1 }}</th>
+                <th colspan="2">AVERAGE LAST : {{ averages_list.9.1 }}</th>
+            </tr>
+            </tfoot>
+
+            <tbody class="table-light">
+            {% for row in rows %}
+                <tr>
+                    {% for item_of_row in row %}
+                        <td>{{ item_of_row }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endif %}
 
 
-{# JQuery and bootstrap js scripts #}
-<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+
+
+
+
+
+{# data table js  #}
+
 
 <script>
     $(document).ready(function () {
-        $('#data_table').DataTable();
-    });
+        var table = $("#example").DataTable();
+
+        $("#time_filter").on('change', function () {
+            regExSearch = '' + $("#time_filter").val() + ''
+            $("#example").DataTable().column(1).search(
+                regExSearch, true, false
+            ).draw();
+        });
+    })
 </script>
+
+
 </body>
 </html>
-
