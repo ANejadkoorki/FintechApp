@@ -67,45 +67,8 @@
 {% if rows %}
     <div class="container mt-4">
 
-{#        <div class="time_filter mb-4">#}
-{#            <select id="time_filter" class="form-control">#}
-{#                <option value="">Show All</option>#}
-{#                <option value="^(20[2-9]{1}[0-9]{1}|2[1-9]{1}\d{2}|[3-9]{1}\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$">#}
-{#                    After 2020#}
-{#                </option>#}
-{#                <option value="^([0-1]{1}\d{3}|20[0-1]{1}[0-9]{1})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$">Before#}
-{#                    2020#}
-{#                </option>#}
-{#            </select>#}
-{#        </div>#}
-
         <table id="example" class="display" width="100%">
             <thead class="table-primary">
-            <tr>
-                <th></th>
-                <th>
-                    <select id="time_filter" class="form-control">
-                        <option value="">Show All</option>
-                        <option value="^(20[2-9]{1}[0-9]{1}|2[1-9]{1}\d{2}|[3-9]{1}\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$">
-                            After 2020
-                        </option>
-                        <option value="^([0-1]{1}\d{3}|20[0-1]{1}[0-9]{1})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$">
-                            Before
-                            2020
-                        </option>
-                    </select>
-                </th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
             <tr>
                 <th>SHARE</th>
                 <th>DATE</th>
@@ -123,6 +86,20 @@
             </thead>
 
             <tfoot>
+            <tr class="table-info">
+                <th>SHARE</th>
+                <th>DATE</th>
+                <th>FIRST</th>
+                <th>HIGH</th>
+                <th>LOW</th>
+                <th>CLOSE</th>
+                <th>VALUE</th>
+                <th>VOL</th>
+                <th>OPENINT</th>
+                <th>PER</th>
+                <th>OPEN</th>
+                <th>LAST</th>
+            </tr>
             <tr class="table-info">
                 <th>{{ averages_list.0 }} Averages :</th>
                 <th>AVERAGE FIRST : {{ averages_list.1.1 }}</th>
@@ -162,15 +139,29 @@
 
 <script>
     $(document).ready(function () {
-        var table = $("#example").DataTable();
+        $('#example').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
 
-        $("#time_filter").on('change', function () {
-            regExSearch = '' + $("#time_filter").val() + ''
-            $("#example").DataTable().column(1).search(
-                regExSearch, true, false
-            ).draw();
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
         });
-    })
+    });
 </script>
 
 

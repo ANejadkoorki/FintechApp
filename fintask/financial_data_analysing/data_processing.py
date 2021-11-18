@@ -4,7 +4,7 @@ from pprint import pprint
 
 
 def financial_data_display(input_file):
-    df = pd.read_csv(input_file)
+    df = pd.read_excel(input_file)
     list_of_averages = get_average_of_columns(df)
     # convert int type to str type
     df["<DTYYYYMMDD>"] = df["<DTYYYYMMDD>"].astype('str')
@@ -30,7 +30,7 @@ def get_average_of_columns(df):
 
 
 def financial_data_plot(input_file):
-    df = pd.read_csv(input_file)
+    df = pd.read_excel(input_file)
     # convert int type to str type
     df["<DTYYYYMMDD>"] = df["<DTYYYYMMDD>"].astype('str')
     # convert to datetime object
