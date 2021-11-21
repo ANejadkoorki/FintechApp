@@ -1,2 +1,2 @@
 # FintechTask
-This is a web Finance Data tool implemented with Django application
+This is a web Finance Data tool that implemented with Django application
