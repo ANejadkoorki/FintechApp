@@ -1,2 +1,2 @@
 # FintechTask
-This is a Fintech Django application
+This is a web Finance Data tool implemented with Django application
